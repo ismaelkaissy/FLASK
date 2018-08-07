@@ -14,10 +14,10 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.route('/signup', methods=('GET', 'POST'))
 def signup():
     if request.method == 'POST':
-        First_name = request.form['Firstname']
-        Last_name = request.form['Lastname']
+        First_name = request.form['firstname']
+        Last_name = request.form['lastname']
         username = First_name + Last_name
-        password = request.form['Password']
+        password = request.form['password']
         email = request.form['email']
         db = get_db()
         error = None
@@ -38,8 +38,8 @@ def signup():
             redirect(url_for('auth.login'))
         else:
             flash(error)
-    else:
-        return render_template('auth/signup.html') 
+    
+    return render_template('signup.html') 
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
@@ -49,20 +49,23 @@ def login():
         db = get_db()
         error = None
         
-        user =  User.query.filter_by(username=username).first()
-        if user is None:
+        user_by_username =  User.query.filter_by(username=username).first()
+        user_by_email = User.query.filter_by(email=username).first()
+
+        if user_by_username is None and user_by_email is None:
             error = 'Incorrect username'
-        elif not check_password_hash(user['password'], password):
-            error = 'Invalid password'
+        else:
+            user = user_by_username if user_by_username else user_by_email
+            if not check_password_hash(user.password, password):
+                error = 'Invalid password'
 
         if error is None:
             session.clear()
-            session['user_id'] = user['id']
-            return redirect(url_for('index'))
+            session['user_id'] = user.id
+            return redirect(url_for('auth.login'))
         else:
-            flash(error)
-    else:
-        return render_template('auth/login.html')
+            flash(error)    
+    return render_template('login.html')
 
 @bp.before_app_request
 def load_logged_in_user():
@@ -76,6 +79,15 @@ def load_logged_in_user():
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('auth.login'))
 
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+
+        return view(**kwargs)
+
+    return wrapped_view
 
