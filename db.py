@@ -29,8 +29,6 @@ def init_db_command():
     click.echo('initialized the datatbase.')
 
 def init_app(app):
-    app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://root:C0d3rSkad@localhost/test'
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)

@@ -19,3 +19,4 @@ class POST(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     content = db.Column(db.String(200), nullable=False)
     date = db.Column(db.DateTime, nullable=False)
+
