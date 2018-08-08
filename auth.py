@@ -16,7 +16,7 @@ def signup():
     if request.method == 'POST':
         First_name = request.form['firstname']
         Last_name = request.form['lastname']
-        username = First_name + Last_name
+        username = First_name +' '+ Last_name
         password = request.form['password']
         email = request.form['email']
         db = get_db()

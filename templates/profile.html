@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+profile
+{% endblock %}
+
+{% block header %}
+<div>{{ firstname }}</div>
+<div>{{ lastname }}</div>
+<div>{{ email }}</div>
+{% endblock %}
+    
+{% block content %}
+    {% for post in posts %}
+        <section>
+            <div>{{ post.users.username }}</div>
+            <div>{{ post.title }}</div>
+            <div>{{ post.content }}</div>
+            <div>{{ post.date }}</div>
+        </section>
+    {% endfor %}
+{% endblock %}

@@ -74,3 +74,13 @@ def delete(id):
     db.session.delete(post)
     db.session.commit()
     return redirect(url_for('index'))
+
+@bp.route('/profile', methods=('GET',))
+@login_required
+def profile():
+    user = g.user
+    firstname = user.First_name
+    lastname = user.Last_name
+    email = user.email
+    posts = user.posts
+    return render_template('profile.html', firstname=firstname, lastname=lastname, email=email, posts=posts)
