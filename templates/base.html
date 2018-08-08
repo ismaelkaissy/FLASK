@@ -24,12 +24,10 @@
                         <a href="{{ url_for('auth.signup') }}">signup</a>
                     </li>
                 {% endif %}
+                {% block header %}
+                {% endblock %}
             </ul>
         </nav>
-        <section>
-            {% block header %}
-            {% endblock %}
-        </section>
     </header>
     <div>
         {% for message in get_flashed_messages() %}
