@@ -69,11 +69,13 @@ def update(id):
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required
 def delete(id):
-    post = get_post(id)
-    db = get_db()
-    db.session.delete(post)
-    db.session.commit()
-    return redirect(url_for('index'))
+    if request.method == 'POST':
+        post = get_post(id)
+        db = get_db()
+        db.session.delete(post)
+        db.session.commit()
+        return redirect(url_for('blog.profile'))
+    return redirect(url_for('blog.profile'))
 
 @bp.route('/profile', methods=('GET',))
 @login_required

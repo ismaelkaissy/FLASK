@@ -35,7 +35,7 @@ def signup():
             user = User(First_name=First_name, Last_name=Last_name, username=username, password=generate_password_hash(password), email=email)
             db.session.add(user)
             db.session.commit()
-            redirect(url_for('index'))
+            redirect(url_for('blog.profile'))
         else:
             flash(error)
     
@@ -59,10 +59,10 @@ def login():
             if not check_password_hash(user.password, password):
                 error = 'Invalid password'
 
-        if error is None:
+        if not error:
             session.clear()
             session['user_id'] = user.id
-            return redirect(url_for('index'))
+            return redirect(url_for('blog.profile'))
         else:
             flash(error)    
     return render_template('login.html')
@@ -71,7 +71,7 @@ def login():
 def load_logged_in_user():
     user_id = session.get('user_id')
 
-    if user_id is None:
+    if not user_id:
         g.user = None
     else:
         g.user = User.query.get(user_id)

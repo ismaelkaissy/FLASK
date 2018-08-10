@@ -9,10 +9,10 @@
 
 {% block content %}
     <form action="{{ url_for('auth.signup') }}" method="POST">
-        <input type="text" name="firstname" placeholder="Firstname">
-        <input type="text" name="lastname" placeholder="Lastname">
-        <input type="email" name="email" placeholder="Email">
-        <input type="password" name="password" placeholder="Password">
+        <input type="text" name="firstname" placeholder="Firstname" required>
+        <input type="text" name="lastname" placeholder="Lastname" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
         <input type="submit" value="Signup">
     </form>
 {% endblock %}

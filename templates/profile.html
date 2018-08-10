@@ -17,6 +17,9 @@ profile
             <div>{{ post.title }}</div>
             <div>{{ post.content }}</div>
             <div>{{ post.date }}</div>
+            <form action="{{ url_for('blog.update', id=post.id) }}">
+                <input type="submit" value="Edit">
+            </form>
         </section>
     {% endfor %}
 {% endblock %}

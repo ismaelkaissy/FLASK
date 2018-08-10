@@ -5,14 +5,12 @@ INDEX
 {% endblock %}
 
 {% block header %}
-<li>
-    <a href="{{ url_for('blog.create') }}">New Post</a>
-</li>
 {% endblock %}
     
 {% block content %}
     {% for post in posts %}
         <section>
+            
             <div>{{ post.users.username }}</div>
             <div>{{ post.title }}</div>
             <div>{{ post.content }}</div>
